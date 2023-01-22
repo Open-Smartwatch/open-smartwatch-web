@@ -1,0 +1,4 @@
+/* Here we only import the used elements from bulma - reduces sizes drastically! */
+
+@import "../node_modules/bulma/sass/utilities/_all";
+@import "../node_modules/bulma/sass/components/message.sass";
