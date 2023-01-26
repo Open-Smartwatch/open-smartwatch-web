@@ -1,0 +1,14 @@
+#malign {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#malign > * {
+    margin: 1em;
+    width: 20em;
+    flex-grow: 1;
+}

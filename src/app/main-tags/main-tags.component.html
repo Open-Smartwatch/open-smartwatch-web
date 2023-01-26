@@ -1,0 +1,11 @@
+<footer id="mfoot" class="footer">
+    <div *ngIf="tags === null">Loading...</div>
+    <div id="mtags" class="field is-grouped is-grouped-multiline" *ngIf="tags !== null">
+        <div class="control" *ngFor="let tag of tags">
+            <div class="tags has-addons">
+                <span class="tag is-dark">{{ tag.name }}</span>
+                <span class="tag is-primary">{{ tag.value }}</span>
+            </div>
+        </div>
+    </div>
+</footer>

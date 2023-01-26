@@ -1,4 +1,9 @@
-/* Here we only import the used elements from bulma - reduces sizes drastically! */
+$body-size : 0.75rem; // Make everything a little bit smaller
 
-@import "../node_modules/bulma/sass/utilities/_all";
-@import "../node_modules/bulma/sass/components/message.sass";
+// Here we only import the used elements from bulma - reduces sizes drastically!
+// @import "../node_modules/bulma/sass/utilities/_all";
+// @import "../node_modules/bulma/sass/components/card.sass";
+// @import "../node_modules/bulma/sass/elements/button.sass";
+
+// ONLY during development: Import all of bulma
+@import "../node_modules/bulma/bulma.sass";

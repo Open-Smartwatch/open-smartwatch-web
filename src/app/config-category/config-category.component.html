@@ -1,0 +1,10 @@
+<div class="card">
+    <header class="card-header">
+       <div class="card-header-title">{{ name }}</div>
+    </header>
+    <div class="card-content">
+       <div class="content">
+         <div class="field" app-config-category-field *ngFor="let id of fieldIds" [id]="id"></div>
+       </div>
+    </div>
+</div>

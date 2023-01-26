@@ -1,0 +1,31 @@
+<label class="label" *ngIf="field === null">Loading...</label>
+<ng-container *ngIf="field !== null">
+    <label class="label">{{ field.label }}{{ syncState }}</label>
+
+    <article class="message is-danger" *ngIf="syncMessage">
+        <div class="message-body">
+            Error: {{ syncMessage }}
+        </div>
+    </article>
+
+    <div class="control" #control>
+        <ng-container [ngSwitch]="field.type">
+            <input class="input" type="text" (change)="onChange($event)" [value]="field.value" autocomplete="off" *ngSwitchCase="types.STRING">
+            <input class="input" type="password" (change)="onChange($event)" [value]="field.value" autocomplete="off" *ngSwitchCase="types.PASSWORD">
+            <div class="select" *ngSwitchCase="types.DROPDOWN">
+                <select class="is-fullwidth" (change)="onChange($event)" *ngIf="field.help">
+                    <option *ngFor="let value of field.help.split(',')" [selected]="field.value == value">{{ value }}</option>
+                </select>
+            </div>
+            <input class="input" type="number" (change)="onChange($event)" [value]="field.value" autocomplete="off" min="0" max="4294967295" *ngSwitchCase="types.ULONG">
+            <input class="input" type="number" (change)="onChange($event)" [value]="field.value" autocomplete="off" min="-2147483647" max="2147483647" *ngSwitchCase="types.INT">
+            <input class="input" type="number" (change)="onChange($event)" [value]="field.value" autocomplete="off" min="-32767" max="32767"*ngSwitchCase="types.SHORT">
+            <input class="input" type="color" (change)="onChange($event)" [value]="field.value" autocomplete="off" *ngSwitchCase="types.RGB">
+            <input class="checkbox" type="checkbox" (change)="onChange($event)" [checked]="field.value" autocomplete="off" *ngSwitchCase="types.BOOL">
+            <input class="input" type="number" (change)="onChange($event)" [value]="field.value" autocomplete="off" *ngSwitchCase="types.DOUBLE">
+            <input class="input" type="number" (change)="onChange($event)" [value]="field.value" autocomplete="off" *ngSwitchCase="types.FLOAT">
+            <input class="input" type="text" (change)="onChange($event)" [value]="field.value" autocomplete="off" placeholder="Unsupported type!" *ngSwitchDefault>
+        </ng-container>
+        <p class="help" *ngIf="field.help && field.type !== types.DROPDOWN">{{ field.help }}</p>
+    </div>
+</ng-container>

@@ -1,0 +1,60 @@
+<div id="malign">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">Update by Upload</p>
+        </header>
+        <div class="card-content">
+            <form method='POST' enctype='multipart/form-data' id='uploadForm'>
+                <div class="file has-name">
+                    <label class="file-label">
+                        <input id="upFile" class="file-input" type="file" name="upload" required>
+                        <span class="file-cta">
+                            <span class="file-label">
+                                Choose a file...
+                            </span>
+                        </span>
+                        <span id="upName" class="file-name">
+                            firmware.bin
+                        </span>
+                    </label>
+                </div>
+                <br>
+                <progress id='uploadProgress' class="progress is-danger" value="0" max="1"></progress>
+                <input id='uploadBtn' type='submit' class="button is-danger is-fullwidth" value='Install Firmware'>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">Update by URI</p>
+        </header>
+        <div class="card-content">
+            <form method='POST' enctype='multipart/form-data' id='uriForm'>
+                <input class="input" type="text" id="uriInput" required><br>
+                <br>
+                <progress id='uriProgress' class="progress is-danger" value="0" max="1"></progress>
+                <input id='uriBtn' type='submit' class="button is-danger is-fullwidth" value='Install Firmware'>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modalMD5Confirm" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Verify MD5-Checksum</p>
+        </header>
+        <section class="modal-card-body">
+            The MD5-Checksum of the firmware file is as follows:<br><br>
+            center ↓↓↓
+            <b id="modalMD5">...</b><br>
+            In case this is not correct or when you are not sure, please abort the update now and upload the firmware manually.
+        </section>
+        <footer class="modal-card-foot">
+            <button id="modalMD5OK" type="button" class="button is-danger">Continue</button>
+        </footer>
+    </div>
+    <button id="modalMD5ABRT" class="modal-close is-large" aria-label="close"></button>
+</div>
