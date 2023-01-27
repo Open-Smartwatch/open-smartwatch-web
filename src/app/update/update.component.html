@@ -4,23 +4,23 @@
             <p class="card-header-title">Update by Upload</p>
         </header>
         <div class="card-content">
-            <form method='POST' enctype='multipart/form-data' id='uploadForm'>
+            <form method='POST' enctype='multipart/form-data' #uploadForm (submit)="submitFile($event)">
                 <div class="file has-name">
                     <label class="file-label">
-                        <input id="upFile" class="file-input" type="file" name="upload" required>
+                        <input #upFile class="file-input" type="file" name="upload" required (change)="updateUploadName()" [attr.disabled]="locked ? true : null">
                         <span class="file-cta">
                             <span class="file-label">
                                 Choose a file...
                             </span>
                         </span>
-                        <span id="upName" class="file-name">
-                            firmware.bin
+                        <span class="file-name">
+                            {{ upName }}
                         </span>
                     </label>
                 </div>
                 <br>
-                <progress id='uploadProgress' class="progress is-danger" value="0" max="1"></progress>
-                <input id='uploadBtn' type='submit' class="button is-danger is-fullwidth" value='Install Firmware'>
+                <progress class="progress is-danger" [value]="uploadProgress" max="1"></progress>
+                <input type='submit' class="button is-danger is-fullwidth" value='Install Firmware' [attr.disabled]="locked ? true : null">
             </form>
         </div>
     </div>
@@ -30,17 +30,17 @@
             <p class="card-header-title">Update by URI</p>
         </header>
         <div class="card-content">
-            <form method='POST' enctype='multipart/form-data' id='uriForm'>
-                <input class="input" type="text" id="uriInput" required><br>
+            <form method='POST' enctype='multipart/form-data' #uriForm>
+                <input class="input" type="text" required [attr.disabled]="locked ? true : null"><br>
                 <br>
-                <progress id='uriProgress' class="progress is-danger" value="0" max="1"></progress>
-                <input id='uriBtn' type='submit' class="button is-danger is-fullwidth" value='Install Firmware'>
+                <progress class="progress is-danger" [value]="uriProgress" max="1"></progress>
+                <input type='submit' class="button is-danger is-fullwidth" value='Install Firmware' [attr.disabled]="locked ? true : null">
             </form>
         </div>
     </div>
 </div>
 
-<div id="modalMD5Confirm" class="modal">
+<div #modalMD5Confirm class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
@@ -48,13 +48,12 @@
         </header>
         <section class="modal-card-body">
             The MD5-Checksum of the firmware file is as follows:<br><br>
-            center ↓↓↓
-            <b id="modalMD5">...</b><br>
+            <b>{{ md5value }}</b><br>
             In case this is not correct or when you are not sure, please abort the update now and upload the firmware manually.
         </section>
         <footer class="modal-card-foot">
-            <button id="modalMD5OK" type="button" class="button is-danger">Continue</button>
+            <button #modalMD5OK type="button" class="button is-danger">Continue</button>
         </footer>
     </div>
-    <button id="modalMD5ABRT" class="modal-close is-large" aria-label="close"></button>
+    <button class="modal-close is-large" aria-label="close" (click)="resetForms()"></button>
 </div>
