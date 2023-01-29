@@ -51,7 +51,7 @@ export class ApiService {
 
   constructor() {
     // load token from local storage and try to use it
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if(token !== null) {
       this.setToken(token);
     }
@@ -61,7 +61,11 @@ export class ApiService {
     setTimeout(func, 1000);
   }
 
-  public async setToken(token: string): Promise<void> {
+  public async setAuthentication(username: string, password: string): Promise<void> {
+    await this.setToken(btoa(username + ':' + password));
+  }
+
+  private async setToken(token: string): Promise<void> {
     // Set the token
     this.token = token;
     // Try to use it
@@ -73,7 +77,7 @@ export class ApiService {
       return;
     }
     // If we get here, the token was correct
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', this.token);
     this._hasToken = true;
   }
 
@@ -81,7 +85,7 @@ export class ApiService {
     this.token = null;
     this._hasToken = false;
     if(includePersistant) {
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
     }
   }
 
@@ -92,7 +96,7 @@ export class ApiService {
   public getAuthenticatedFetch(path: string, method: string, contentType: string | null = null, body: string | null = null) {
     var headers: any = {};
     if(this.token !== null)
-      headers['Authorization'] = `Basic ${btoa('admin:' + this.token!)}`;
+      headers['Authorization'] = `Basic ${this.token!}`;
     if(contentType !== null)
       headers['Content-Type'] = contentType;
     return fetch(this.makePath(path), {
@@ -112,7 +116,7 @@ export class ApiService {
   public authenticateXhr(xhr: XMLHttpRequest): void {
     if(this.token === null)
       throw new Error('No token available');
-    xhr.setRequestHeader('Authorization', `Basic ${btoa('admin:' + this.token!)}`);
+    xhr.setRequestHeader('Authorization', `Basic ${this.token!}`);
   }
 
   public getBuildFlags(): Promise<ApiBuildFlag[]> {

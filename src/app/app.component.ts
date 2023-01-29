@@ -20,7 +20,7 @@ export class AppComponent {
   public loginEvent(event: Event): void {
     event.preventDefault();
     var data = new FormData(event.target as HTMLFormElement);
-    this.api.setToken(data.get('password') as string);
+    this.api.setAuthentication(data.get('username') as string, data.get('password') as string);
   }
 
   public logout(): void {

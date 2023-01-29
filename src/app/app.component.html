@@ -30,16 +30,17 @@
 <router-outlet *ngIf="isAuthenticated === true"></router-outlet>
 <div class="centeralign card" *ngIf="isAuthenticated !== true">
     <header class="card-header">
-        <p class="card-header-title">Authentication</p>
+        <p class="card-header-title" *ngIf="isAuthenticated === false">Authentication</p>
+        <p class="card-header-title" *ngIf="isAuthenticated === null">Logging in...</p>
     </header>
     <div class="card-content">
         <div class="content">
             <progress class="progress is-small is-primary" *ngIf="isAuthenticated === null"></progress>
             <div class="control" *ngIf="isAuthenticated === false">
                 <form (submit)="loginEvent($event)">
-                    <!-- <input class="input" type="text" placeholder="Username" name="username" required /> -->
-                    <input class="input" type="password" placeholder="Password" name="password" required />
-                    <br><br>
+                    <input class="input" type="text" placeholder="username" name="username" required /><br>
+                    <input class="input" type="password" placeholder="password" name="password" required /><br>
+                    <br>
                     <input type="submit" class="button is-primary is-fullwidth" value="Login">
                 </form>
             </div>
