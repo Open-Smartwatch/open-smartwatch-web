@@ -35,14 +35,14 @@
     <div class="card-content">
         <div class="content">
             <progress class="progress is-small is-primary" *ngIf="isAuthenticated === null"></progress>
-            <ng-container *ngIf="isAuthenticated === false">
-                <div class="control">
-                    <!-- <input class="input" type="text" placeholder="Username" #username /> -->
-                    <input class="input" type="password" placeholder="Password" #password />
+            <div class="control" *ngIf="isAuthenticated === false">
+                <form (submit)="loginEvent($event)">
+                    <!-- <input class="input" type="text" placeholder="Username" name="username" required /> -->
+                    <input class="input" type="password" placeholder="Password" name="password" required />
                     <br><br>
-                    <a class="button is-primary is-fullwidth" (click)="login()">Login</a>
-                </div>
-            </ng-container>
+                    <input type="submit" class="button is-primary is-fullwidth" value="Login">
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -17,8 +17,10 @@ export class AppComponent {
     return this.api.hasToken;
   }
 
-  public login(): void {
-    this.api.setToken(this.password!.nativeElement.value);
+  public loginEvent(event: Event): void {
+    event.preventDefault();
+    var data = new FormData(event.target as HTMLFormElement);
+    this.api.setToken(data.get('password') as string);
   }
 
   public logout(): void {
