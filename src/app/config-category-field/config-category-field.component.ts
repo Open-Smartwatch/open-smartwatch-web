@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ApiConfigCategoryFieldType, ApiConfigCategoryField, ApiService } from '../api.service';
+import { ConfigCacheService } from '../config.service';
 
 @Component({
   selector: 'div[app-config-category-field]',
@@ -16,11 +17,11 @@ export class ConfigCategoryFieldComponent {
   private syncStateClearTimeout: number | null = null;
   @ViewChild('control') control: ElementRef | null = null;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private configCache: ConfigCacheService) { }
 
   public async ngOnInit(): Promise<void> {
     try {
-      this.field = await this.apiService.getConfigCategoryField(this.id);
+      this.field = await this.configCache.getConfigCategoryField(this.id);
     } catch (e) {
       this.error = `${e}`;
     }

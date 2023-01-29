@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ApiConfigCategory, ApiService } from 'src/app/api.service';
+import { ApiConfigCategory } from 'src/app/api.service';
+import { ConfigCacheService } from '../config.service';
 
 @Component({
   selector: 'app-config',
@@ -11,11 +12,11 @@ export class ConfigComponent {
   public error: string = '';
   public loading: boolean = true;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private configCache: ConfigCacheService) { }
 
   public async ngOnInit(): Promise<void> {
     try {
-      this.categories = await this.apiService.getConfigCategories();
+      this.categories = await this.configCache.getConfigCategories();
     } catch (e) {
       this.error = `${e}`;
     }
