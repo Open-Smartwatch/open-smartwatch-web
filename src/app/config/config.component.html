@@ -1,15 +1,18 @@
 <section class="section">
     <div class="container">
         <p class="heading">Configuration</p>
-        <div *ngIf="categories === null">Loading...</div>
-        <div *ngIf="categories !== null">
+        <progress class="progress is-large is-primary" *ngIf="loading"></progress>
+        <article class="message is-danger" *ngIf="error">
+            <div class="message-body">Error: {{ error }}</div>
+        </article>
+        <div *ngIf="categories">
             <ng-container *ngFor="let _ of categories; let i = index">
                 <div class="columns" *ngIf="((i % 3) == 0)">
-                <ng-container *ngFor="let category of categories; let j = index">
-                    <div class="column is-one-third" *ngIf="j >= i && j < i+3">
-                        <app-config-category [category]="category"></app-config-category>
-                    </div>
-                </ng-container>
+                    <ng-container *ngFor="let category of categories; let j = index">
+                        <div class="column is-one-third" *ngIf="j >= i && j < i+3">
+                            <app-config-category [category]="category"></app-config-category>
+                        </div>
+                    </ng-container>
                 </div>
             </ng-container>
         </div>

@@ -1,1 +1,48 @@
-<router-outlet></router-outlet>
+<nav class="navbar" role="navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" [routerLink]="['/']">
+            <span class="is-unselectable is-family-monospace has-text-weight-semibold">Open-Smartwatch Web</span>
+        </a>
+        <a role="button" class="navbar-burger" #menuBurger (click)="toggleMenu()">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div class="navbar-menu" #menuMain>
+        <div class="navbar-start">
+            <a class="navbar-item" [routerLink]="['/config']">Config</a>
+            <a class="navbar-item" [routerLink]="['/update']">Update</a>
+            <a class="navbar-item" [routerLink]="['/info']">Info</a>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-light" *ngIf="isAuthenticated === true" (click)="logout()">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<router-outlet *ngIf="isAuthenticated === true"></router-outlet>
+<div class="centeralign card" *ngIf="isAuthenticated !== true">
+    <header class="card-header">
+        <p class="card-header-title">Authentication</p>
+    </header>
+    <div class="card-content">
+        <div class="content">
+            <progress class="progress is-small is-primary" *ngIf="isAuthenticated === null"></progress>
+            <ng-container *ngIf="isAuthenticated === false">
+                <div class="control">
+                    <!-- <input class="input" type="text" placeholder="Username" #username /> -->
+                    <input class="input" type="password" placeholder="Password" #password />
+                    <br><br>
+                    <a class="button is-primary is-fullwidth" (click)="login()">Login</a>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

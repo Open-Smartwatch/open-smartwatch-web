@@ -1,44 +1,51 @@
-<div id="malign">
-    <div class="card">
-        <header class="card-header">
-            <p class="card-header-title">Update by Upload</p>
-        </header>
-        <div class="card-content">
-            <form method='POST' enctype='multipart/form-data' #uploadForm (submit)="submitFile($event)">
-                <div class="file has-name">
-                    <label class="file-label">
-                        <input #upFile class="file-input" type="file" name="upload" required (change)="updateUploadName()" [attr.disabled]="locked ? true : null">
-                        <span class="file-cta">
-                            <span class="file-label">
-                                Choose a file...
-                            </span>
-                        </span>
-                        <span class="file-name">
-                            {{ upName }}
-                        </span>
-                    </label>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Update by Upload</p>
+                    </header>
+                    <div class="card-content">
+                        <form method='POST' enctype='multipart/form-data' #uploadForm (submit)="submitFile($event)">
+                            <div class="file has-name">
+                                <label class="file-label">
+                                    <input #upFile class="file-input" type="file" name="upload" required (change)="updateUploadName()" [attr.disabled]="locked ? true : null">
+                                    <span class="file-cta">
+                                        <span class="file-label">
+                                            Choose a file...
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        {{ upName }}
+                                    </span>
+                                </label>
+                            </div>
+                            <br>
+                            <progress class="progress is-danger" [value]="uploadProgress" max="1"></progress>
+                            <input type='submit' class="button is-danger is-fullwidth" value='Install Firmware' [attr.disabled]="locked ? true : null">
+                        </form>
+                    </div>
                 </div>
-                <br>
-                <progress class="progress is-danger" [value]="uploadProgress" max="1"></progress>
-                <input type='submit' class="button is-danger is-fullwidth" value='Install Firmware' [attr.disabled]="locked ? true : null">
-            </form>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Update by URI</p>
+                    </header>
+                    <div class="card-content">
+                        <form method='POST' enctype='multipart/form-data' #uriForm>
+                            <input class="input" type="text" required [attr.disabled]="locked ? true : null"><br>
+                            <br>
+                            <progress class="progress is-danger" [value]="uriProgress" max="1"></progress>
+                            <input type='submit' class="button is-danger is-fullwidth" value='Install Firmware' [attr.disabled]="locked ? true : null">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="card">
-        <header class="card-header">
-            <p class="card-header-title">Update by URI</p>
-        </header>
-        <div class="card-content">
-            <form method='POST' enctype='multipart/form-data' #uriForm>
-                <input class="input" type="text" required [attr.disabled]="locked ? true : null"><br>
-                <br>
-                <progress class="progress is-danger" [value]="uriProgress" max="1"></progress>
-                <input type='submit' class="button is-danger is-fullwidth" value='Install Firmware' [attr.disabled]="locked ? true : null">
-            </form>
-        </div>
-    </div>
-</div>
+</section>
 
 <div #modalMD5Confirm class="modal">
     <div class="modal-background"></div>

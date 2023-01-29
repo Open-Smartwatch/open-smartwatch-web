@@ -31,14 +31,88 @@ export class ApiConfigCategoryField {
     public help: string | null,
     public value: string
   ) { }
+
+  public get checked(): boolean {
+    // This function ensures a boolean value is returned - and not a string
+    return this.value === 'true';
+  }
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  private token: string | null = null;
+  private _hasToken: boolean | null = false;
+
+  public get hasToken(): boolean | null {
+    return this._hasToken;
+  }
+
+  constructor() {
+    // load token from local storage and try to use it
+    const token = localStorage.getItem('token');
+    if(token !== null) {
+      this.setToken(token);
+    }
+  }
+
   private delay(func: () => void): void {
     setTimeout(func, 1000);
+  }
+
+  public async setToken(token: string): Promise<void> {
+    // Set the token
+    this.token = token;
+    // Try to use it
+    try {
+      this._hasToken = null; // we do not know yet
+      await this.getBuildFlags(); // test the token by performing a simple request
+    } catch(e) {
+      // well, this did not work out -> the token was wrong (and already dropped)
+      return;
+    }
+    // If we get here, the token was correct
+    localStorage.setItem('token', token);
+    this._hasToken = true;
+  }
+
+  public clearToken(includePersistant: boolean = true): void {
+    this.token = null;
+    this._hasToken = false;
+    if(includePersistant) {
+      localStorage.removeItem('token');
+    }
+  }
+
+  public makePath(path: string): string {
+    return environment.api.endpoint + path;
+  }
+
+  public getAuthenticatedFetch(path: string, method: string, contentType: string | null = null, body: string | null = null) {
+    var headers: any = {};
+    if(this.token !== null)
+      headers['Authorization'] = `Basic ${btoa('admin:' + this.token!)}`;
+    if(contentType !== null)
+      headers['Content-Type'] = contentType;
+    return fetch(this.makePath(path), {
+      method: method,
+      headers: headers,
+      body: body
+    }).then(response => {
+      if(response.status === 401) {
+        this.clearToken(false); // Do not drop token from local storage, maybe the backend was not correctly connected
+      }
+      if(!response.ok)
+        throw new Error('HTTP error, status = ' + response.status);
+      return response;
+    });
+  }
+
+  public authenticateXhr(xhr: XMLHttpRequest): void {
+    if(this.token === null)
+      throw new Error('No token available');
+    xhr.setRequestHeader('Authorization', `Basic ${btoa('admin:' + this.token!)}`);
   }
 
   public getBuildFlags(): Promise<ApiBuildFlag[]> {
@@ -54,7 +128,7 @@ export class ApiService {
         flags.push(new ApiBuildFlag('PlatformIO Environment', 'dev'));
         this.delay(() => resolve(flags));
       } else {
-        fetch('/api/info').then(response => response.json()).then(json => {
+        this.getAuthenticatedFetch('/api/info', 'GET').then(response => response.json()).then(json => {
           flags.push(new ApiBuildFlag('Boot Count', json.bc));
           flags.push(new ApiBuildFlag('Build Timestamp', json.t));
           flags.push(new ApiBuildFlag('Compiler Version', json.v));
@@ -78,11 +152,10 @@ export class ApiService {
         categories.push(new ApiConfigCategory('Other', ['i']));
         this.delay(() => resolve(categories));
       } else {
-        fetch('/api/config/categories').then(response => response.json()).then(json => {
-          // TODO
-          // for(const category in json) {
-          //   categories.push(new ApiConfigCategory(category, json[category]));
-          // }
+        this.getAuthenticatedFetch('/api/config/categories', 'GET').then(response => response.json()).then(json => {
+          for(const category in json.categories) {
+            categories.push(new ApiConfigCategory(category, json.categories[category]));
+          }
           resolve(categories);
         }).catch(error => reject);
       }
@@ -106,17 +179,16 @@ export class ApiService {
         };
         this.delay(() => resolve(id in idToField ? idToField[id] :
           new ApiConfigCategoryField(
-          id,
-          ApiConfigCategoryFieldType.STRING,
-          'Label_' + id,
-          'Help_' + id,
-          'value_' + id
+            id,
+            ApiConfigCategoryFieldType.STRING,
+            'Label_' + id,
+            'Help_' + id,
+            'value_' + id
           ))
         );
       } else {
-        fetch('/api/config/field' + id).then(response => response.json()).then(json => {
-          // TODO
-          // resolve(new ApiConfigCategoryField(id, json.type, json.label, json.help));
+        this.getAuthenticatedFetch('/api/config/field?id=' + id, 'GET').then(response => response.json()).then(json => {
+          resolve(new ApiConfigCategoryField(id, json.type, json.label, json.help, json.value));
         }).catch(error => reject);
       }
     });
@@ -130,13 +202,10 @@ export class ApiService {
         else
           this.delay(resolve);
       } else {
-        fetch('/api/config/field' + field.id, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: field.value
-        }).then(response => {
+        this.getAuthenticatedFetch(
+          '/api/config/field?id=' + field.id + '&value=' + encodeURIComponent(field.value),
+          'PUT'
+        ).then(response => {
           if(response.ok) {
             resolve();
           } else {

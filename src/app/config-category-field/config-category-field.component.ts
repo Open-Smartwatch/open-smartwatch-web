@@ -9,16 +9,22 @@ import { ApiConfigCategoryFieldType, ApiConfigCategoryField, ApiService } from '
 export class ConfigCategoryFieldComponent {
   public types = ApiConfigCategoryFieldType; // To use it in the template
   @Input() public id: string = '';
-  public field: ApiConfigCategoryField | null = null;
+  public field: ApiConfigCategoryField | undefined;
+  public loading: boolean = true;
+  public error: string = '';
   public syncState: string = '';
-  public syncMessage: string = '';
   private syncStateClearTimeout: number | null = null;
   @ViewChild('control') control: ElementRef | null = null;
 
   constructor(private apiService: ApiService) { }
 
   public async ngOnInit(): Promise<void> {
-    this.field = await this.apiService.getConfigCategoryField(this.id);
+    try {
+      this.field = await this.apiService.getConfigCategoryField(this.id);
+    } catch (e) {
+      this.error = `${e}`;
+    }
+    this.loading = false;
   }
 
   public async onChange(event: Event): Promise<void> {
@@ -31,7 +37,7 @@ export class ConfigCategoryFieldComponent {
 
       this.control!.nativeElement.classList.add('is-loading');
       this.syncState = '';
-      this.syncMessage = '';
+      this.error = '';
       input.setAttribute('disabled', '');
       if(this.field!.type === ApiConfigCategoryFieldType.BOOL)
         this.field!.value = input.checked ? 'true' : 'false';
@@ -49,7 +55,7 @@ export class ConfigCategoryFieldComponent {
       } catch (e) {
         console.error('Failed to sync field', this.field!.id, 'to value', this.field!.value, 'with error', e);
         this.syncState = ' ❌';
-        this.syncMessage = `${e}`;
+        this.error = `${e}`;
       }
       this.control!.nativeElement.classList.remove('is-loading');
       input.removeAttribute('disabled');
@@ -57,7 +63,6 @@ export class ConfigCategoryFieldComponent {
   }
 
   public async sync(): Promise<void> {
-    console.log('Syncing field', this.field!.id, 'to value', this.field!.value);
     await this.apiService.setConfigCategoryField(this.field!);
   }
 }

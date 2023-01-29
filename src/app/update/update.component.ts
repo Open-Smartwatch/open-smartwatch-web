@@ -65,7 +65,7 @@ export class UpdateComponent {
                     this.uploadProgress = evt.loaded / evt.total;
             }, false);
             xhr.onload = that.finalize.bind(that, xhr);
-            xhr.open('POST', '/api/ota/passive', true);
+            xhr.open('POST', this.apiService.makePath('/api/ota/passive'), true);
             xhr.setRequestHeader('x-UpdateHash', calcMD5(evt.target!.result));
             xhr.send(data);
         }
@@ -92,7 +92,7 @@ export class UpdateComponent {
                     that.closeModal();
                     var xhr = new window.XMLHttpRequest();
                     xhr.onload = that.finalize.bind(that, xhr);
-                    xhr.open('POST', '/api/ota/active', true);
+                    xhr.open('POST', that.apiService.makePath('/api/ota/active'), true);
                     xhr.send(checksum + ';' + uri);
                 };
                 that.openModal();

@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainRootComponent } from './main/main.component';
 import { UpdateComponent } from './update/update.component';
 import { ConfigComponent } from './config/config.component';
+import { InfoComponent } from './info/info.component';
 
 const routes: Routes = [
-  { path: '', component: MainRootComponent },
-  { path: 'update', component: UpdateComponent },
+  { path: '', redirectTo: '/config', pathMatch: 'full' },
   { path: 'config', component: ConfigComponent },
+  { path: 'update', component: UpdateComponent },
+  { path: 'info', component: InfoComponent }
 ];
 
 @NgModule({

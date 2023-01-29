@@ -7,11 +7,18 @@ import { ApiConfigCategory, ApiService } from 'src/app/api.service';
   styleUrls: ['./config.component.css']
 })
 export class ConfigComponent {
-  public categories: ApiConfigCategory[] | null = null;
+  public categories: ApiConfigCategory[] | undefined;
+  public error: string = '';
+  public loading: boolean = true;
 
   constructor(private apiService: ApiService) { }
 
   public async ngOnInit(): Promise<void> {
-    this.categories = await this.apiService.getConfigCategories();
+    try {
+      this.categories = await this.apiService.getConfigCategories();
+    } catch (e) {
+      this.error = `${e}`;
+    }
+    this.loading = false;
   }
 }
