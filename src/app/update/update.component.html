@@ -7,7 +7,7 @@
                         <p class="card-header-title">Update by Upload</p>
                     </header>
                     <div class="card-content">
-                        <form method='POST' enctype='multipart/form-data' #uploadForm (submit)="submitFile($event)">
+                        <form (submit)="submitFile($event)">
                             <div class="file has-name">
                                 <label class="file-label">
                                     <input #upFile class="file-input" type="file" name="upload" required (change)="updateUploadName()" [attr.disabled]="locked ? true : null">
@@ -34,8 +34,8 @@
                         <p class="card-header-title">Update by URI</p>
                     </header>
                     <div class="card-content">
-                        <form method='POST' enctype='multipart/form-data' #uriForm>
-                            <input class="input" type="text" required [attr.disabled]="locked ? true : null"><br>
+                        <form (submit)="submitURI($event)">
+                            <input class="input" type="text" name="uri" required [attr.disabled]="locked ? true : null" placeholder="http://192.168.0.42/firmware.bin"><br>
                             <br>
                             <progress class="progress is-danger" [value]="uriProgress" max="1"></progress>
                             <input type='submit' class="button is-danger is-fullwidth" value='Install Firmware' [attr.disabled]="locked ? true : null">
@@ -54,8 +54,7 @@
             <p class="modal-card-title">Verify MD5-Checksum</p>
         </header>
         <section class="modal-card-body">
-            The MD5-Checksum of the firmware file is as follows:<br><br>
-            <b>{{ md5value }}</b><br>
+            The MD5-Checksum of the firmware file is as follows: <b class="is-family-code">{{ md5value }}</b><br>
             In case this is not correct or when you are not sure, please abort the update now and upload the firmware manually.
         </section>
         <footer class="modal-card-foot">
