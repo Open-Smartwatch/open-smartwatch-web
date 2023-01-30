@@ -38,8 +38,8 @@
             <progress class="progress is-small is-primary" *ngIf="isAuthenticated === null"></progress>
             <div class="control" *ngIf="isAuthenticated === false">
                 <form (submit)="loginEvent($event)">
-                    <input class="input" type="text" placeholder="username" name="username" required /><br>
-                    <input class="input" type="password" placeholder="password" name="password" required /><br>
+                    <input class="input" type="text" placeholder="username" name="username" required autocomplete="off" /><br>
+                    <input class="input" type="password" placeholder="password" name="password" required autocomplete="off" /><br>
                     <br>
                     <input type="submit" class="button is-primary is-fullwidth" value="Login">
                 </form>

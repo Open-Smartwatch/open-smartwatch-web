@@ -1,9 +1,34 @@
 $body-size : 0.75rem; // Make everything a little bit smaller
 
 // Here we only import the used elements from bulma - reduces sizes drastically!
-// @import "../node_modules/bulma/sass/utilities/_all";
-// @import "../node_modules/bulma/sass/components/card.sass";
-// @import "../node_modules/bulma/sass/elements/button.sass";
+@import "../node_modules/bulma/sass/base/_all";
+@import "../node_modules/bulma/sass/utilities/_all";
 
-// TODO ONLY during development: Import all of bulma
-@import "../node_modules/bulma/bulma.sass";
+// Navbar
+@import "../node_modules/bulma/sass/helpers/typography.sass";
+@import "../node_modules/bulma/sass/components/navbar.sass";
+
+// Login
+@import "../node_modules/bulma/sass/components/card.sass";
+@import "../node_modules/bulma/sass/elements/button.sass";
+@import "../node_modules/bulma/sass/form/shared.sass";
+@import "../node_modules/bulma/sass/form/file.sass";
+@import "../node_modules/bulma/sass/form/select.sass";
+@import "../node_modules/bulma/sass/form/input-textarea.sass";
+@import "../node_modules/bulma/sass/form/tools.sass";
+@import "../node_modules/bulma/sass/elements/progress.sass";
+
+// Configuration
+@import "../node_modules/bulma/sass/elements/container.sass";
+@import "../node_modules/bulma/sass/elements/other.sass"; // for the section titles
+@import "../node_modules/bulma/sass/layout/section.sass";
+@import "../node_modules/bulma/sass/grid/columns.sass";
+
+// Updater
+@import "../node_modules/bulma/sass/components/modal.sass";
+
+// Information
+@import "../node_modules/bulma/sass/elements/tag.sass";
+
+// ONLY during development: Import all of bulma
+// @import "../node_modules/bulma/bulma.sass";
