@@ -1,12 +1,24 @@
 <section class="section">
     <div class="container">
-        <p class="heading">Information</p>
+        <p class="heading">OSW-API Information</p>
         <progress class="progress is-large is-primary" *ngIf="loading"></progress>
         <article class="message is-danger" *ngIf="error">
             <div class="message-body">Error: {{ error }}</div>
         </article>
-        <div id="mtags" class="field is-grouped is-grouped-multiline" *ngIf="tags">
-            <div class="control" *ngFor="let tag of tags">
+        <div id="mtags" class="field is-grouped is-grouped-multiline" *ngIf="tagsApi">
+            <div class="control" *ngFor="let tag of tagsApi">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">{{ tag.name }}</span>
+                    <span class="tag is-primary">{{ tag.value }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <p class="heading">OSW-UI Information</p>
+        <div id="mtags" class="field is-grouped is-grouped-multiline">
+            <div class="control" *ngFor="let tag of tagsUI">
                 <div class="tags has-addons">
                     <span class="tag is-dark">{{ tag.name }}</span>
                     <span class="tag is-primary">{{ tag.value }}</span>
