@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "prestart": "node git-version.js",
     "prebuild": "node git-version.js",
-    "build": "ng build",
     "prebuild-osw": "node git-version.js",
-    "build-osw": "ng build --output-hashing none --progress --configuration osw",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "ng serve",
+    "build": "ng build --configuration development",
+    "build-osw": "ng build --output-hashing none --progress --configuration osw"
   },
   "private": true,
   "dependencies": {
