@@ -1,0 +1,2 @@
+# NOTE
+This branch is just for this project being used as a submodule in other projects. It is not intended to be used for enything else, except for the most recent copy of the `dist` folder. Use the respective script of the primary branch to update this branch! After that make sure to push the changes to this branch.
