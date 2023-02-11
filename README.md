@@ -6,7 +6,8 @@ npm run build-osw
 investigate package size:
 node_modules/.bin/source-map-explorer dist/open-smartwatch-web/main.js
 
-
+**for maintainers: update dist-branch**
+use this `update-dist-branch.sh` script
 
 // OLD ↓
 
