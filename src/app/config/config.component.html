@@ -24,7 +24,7 @@
             <input #importInput id="importInput" type="file" (change)="import($event)">
             <button class="button" (click)="importInput.click()" [attr.disabled]="importProgress">Import</button>
             <button class="button" (click)="export()" [attr.disabled]="importProgress">Export</button>
-            <button class="button is-danger" (click)="reset()">Reset Configuration</button>
+            <button class="button is-danger" (click)="reset()" [attr.disabled]="importProgress">Reset Configuration</button>
         </div>
     </div>
 </section>
