@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApiConfigCategory } from 'src/app/api.service';
+import { ApiConfigCategory, ApiService } from 'src/app/api.service';
 import { ConfigCacheService } from '../config.service';
 
 @Component({
@@ -12,14 +12,24 @@ export class ConfigComponent {
   public error: string = '';
   public loading: boolean = true;
 
-  constructor(private configCache: ConfigCacheService) { }
+  constructor(private apiService: ApiService, private configCache: ConfigCacheService) { }
 
   public async ngOnInit(): Promise<void> {
+    await this.update();
+  }
+
+  private async update(): Promise<void> {
+    this.loading = true;
     try {
       this.categories = await this.configCache.getConfigCategories();
     } catch (e) {
       this.error = `${e}`;
     }
     this.loading = false;
+  }
+
+  public async reset(): Promise<void> {
+    await this.apiService.triggerReset(false);
+    await this.update();
   }
 }
