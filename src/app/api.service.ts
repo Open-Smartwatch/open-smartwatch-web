@@ -219,4 +219,37 @@ export class ApiService {
       }
     });
   }
+
+  public triggerReboot(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if(environment.api.mock) {
+        this.delay(resolve);
+      } else {
+        this.getAuthenticatedFetch('/api/reboot', 'GET').then(response => {
+          if(response.ok) {
+            resolve();
+          } else {
+            reject();
+          }
+        }).catch(error => reject);
+      }
+    });
+  }
+
+  public triggerReset(clearNVS: boolean): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if(environment.api.mock) {
+        this.delay(resolve);
+      } else {
+        this.getAuthenticatedFetch('/api/reset' + (clearNVS ? '?clearNVS' : ''), 'GET').then(response => {
+          if(response.ok) {
+            resolve();
+          } else {
+            reject();
+          }
+        }).catch(error => reject);
+      }
+    });
+  }
+
 }

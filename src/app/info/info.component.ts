@@ -10,7 +10,8 @@ import { VERSION } from '../../environments/version';
 export class InfoComponent {
   public tagsApi: ApiBuildFlag[] | undefined;
   public tagsUI: ApiBuildFlag[] = [];
-  public loading: boolean = true;
+  public tagsLoading: boolean = true;
+  public actionLoading: boolean = false;
   public error: string = '';
 
   constructor(private apiService: ApiService) { }
@@ -29,6 +30,18 @@ export class InfoComponent {
     } catch (e) {
       this.error = `${e}`;
     }
-    this.loading = false;
+    this.tagsLoading = false;
+  }
+
+  public async reboot(): Promise<void> {
+    this.actionLoading = true;
+    await this.apiService.triggerReboot();
+    this.actionLoading = false;
+  }
+
+  public async reset(clearNVS: boolean): Promise<void> {
+    this.actionLoading = true;
+    await this.apiService.triggerReset(clearNVS);
+    this.actionLoading = false;
   }
 }
