@@ -11,6 +11,10 @@ export class ConfigCacheService {
 
   constructor(private apiService: ApiService) { }
 
+  public getCachedFields(): Map<string, ApiConfigCategoryField> {
+    return this.cacheFields;
+  }
+
   public async getConfigCategories(): Promise<ApiConfigCategory[]> {
     this.cacheCategories = this.cacheCategories || await this.apiService.getConfigCategories();
     return this.cacheCategories;
@@ -26,5 +30,11 @@ export class ConfigCacheService {
         this.cacheFields.get(id)!.value = field.value; // Update the value, just in case
       });
     return this.cacheFields.get(id)!;
+  }
+
+  public clear(): void {
+    this.cacheFields.clear();
+    this.cacheFieldsTTL.clear();
+    this.cacheCategories = undefined;
   }
 }

@@ -19,6 +19,12 @@
     </div>
     <br>
     <div class="container">
-        <button class="button is-danger" (click)="reset()">Reset Configuration</button>
+        <progress class="progress is-primary" min="0" max="1" [value]="importProgress" *ngIf="importProgress !== null"></progress>
+        <div class="buttons" *ngIf="!loading">
+            <input #importInput id="importInput" type="file" (change)="import($event)">
+            <button class="button" (click)="importInput.click()" [attr.disabled]="importProgress">Import</button>
+            <button class="button" (click)="export()" [attr.disabled]="importProgress">Export</button>
+            <button class="button is-danger" (click)="reset()">Reset Configuration</button>
+        </div>
     </div>
 </section>
