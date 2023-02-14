@@ -29,7 +29,8 @@ export class ApiConfigCategoryField {
     public type: ApiConfigCategoryFieldType,
     public label: string,
     public help: string | null,
-    public value: string
+    public value: string,
+    public syncing: boolean = false
   ) { }
 
   public get checked(): boolean {
@@ -199,12 +200,14 @@ export class ApiService {
   }
 
   public setConfigCategoryField(field: ApiConfigCategoryField): Promise<void> {
+    field.syncing = true;
     return new Promise((resolve, reject) => {
       if(environment.api.mock) {
         if(field.id == 'c' && Math.random() < 0.5)
           reject('random failure to mock you');
         else
           this.delay(resolve);
+        field.syncing = false; // syncing may finish before the success callback
       } else {
         this.getAuthenticatedFetch(
           '/api/config/field?id=' + field.id + '&value=' + encodeURIComponent(field.value),
@@ -215,7 +218,7 @@ export class ApiService {
           } else {
             reject();
           }
-        }).catch(error => reject);
+        }).catch(error => reject).finally(() => field.syncing = false);
       }
     });
   }
@@ -241,7 +244,7 @@ export class ApiService {
       if(environment.api.mock) {
         this.delay(resolve);
       } else {
-        this.getAuthenticatedFetch('/api/reset' + (clearNVS ? '?clearNVS' : ''), 'GET').then(response => {
+        this.getAuthenticatedFetch('/api/config/reset' + (clearNVS ? '?clearNVS' : ''), 'GET').then(response => {
           if(response.ok) {
             resolve();
           } else {

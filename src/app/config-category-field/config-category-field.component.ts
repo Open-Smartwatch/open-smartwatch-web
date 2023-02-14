@@ -36,10 +36,8 @@ export class ConfigCategoryFieldComponent {
         this.syncStateClearTimeout = null;
       }
 
-      this.control!.nativeElement.classList.add('is-loading');
       this.syncState = '';
       this.error = '';
-      input.setAttribute('disabled', '');
       if(this.field!.type === ApiConfigCategoryFieldType.BOOL)
         this.field!.value = input.checked ? 'true' : 'false';
       else
@@ -58,8 +56,6 @@ export class ConfigCategoryFieldComponent {
         this.syncState = ' ❌';
         this.error = `${e}`;
       }
-      this.control!.nativeElement.classList.remove('is-loading');
-      input.removeAttribute('disabled');
     }
   }
 
