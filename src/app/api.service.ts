@@ -43,11 +43,21 @@ export class ApiConfigCategoryField {
   providedIn: 'root'
 })
 export class ApiService {
+  private expectedApiVersion: number = 1;
+  private remoteApiVersion: number = this.expectedApiVersion;
   private token: string | null = null;
   private _hasToken: boolean | null = false;
 
   public get hasToken(): boolean | null {
     return this._hasToken;
+  }
+
+  public get getExpectedApiVersion(): number {
+    return this.expectedApiVersion;
+  }
+
+  public get getRemoteApiVersion(): number {
+    return this.remoteApiVersion;
   }
 
   constructor() {
@@ -124,6 +134,8 @@ export class ApiService {
     return new Promise((resolve, reject) => {
       const flags: ApiBuildFlag[] = [];
       if(environment.api.mock) {
+        this.remoteApiVersion = this.expectedApiVersion;
+        flags.push(new ApiBuildFlag('API Version', this.expectedApiVersion.toString()));
         flags.push(new ApiBuildFlag('Boot Count', '1'));
         flags.push(new ApiBuildFlag('Build Timestamp', '2020-01-01 00:00:00'));
         flags.push(new ApiBuildFlag('Compiler Version', '1.0.0'));
@@ -134,6 +146,8 @@ export class ApiService {
         this.delay(() => resolve(flags));
       } else {
         this.getAuthenticatedFetch('/api/info', 'GET').then(response => response.json()).then(json => {
+          this.remoteApiVersion = json.X; // update the remote API version on every request
+          flags.push(new ApiBuildFlag('API Version', json.X));
           flags.push(new ApiBuildFlag('Boot Count', json.bc));
           flags.push(new ApiBuildFlag('Build Timestamp', json.t));
           flags.push(new ApiBuildFlag('Compiler Version', json.v));

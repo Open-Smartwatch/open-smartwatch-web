@@ -17,6 +17,14 @@ export class AppComponent {
     return this.api.hasToken;
   }
 
+  public get expectedApiVersion(): number {
+    return this.api.getExpectedApiVersion;
+  }
+
+  public get remoteApiVersion(): number {
+    return this.api.getRemoteApiVersion;
+  }
+
   public loginEvent(event: Event): void {
     event.preventDefault();
     var data = new FormData(event.target as HTMLFormElement);

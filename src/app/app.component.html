@@ -27,6 +27,10 @@
     </div>
 </nav>
 
+<article class="message is-warning" *ngIf="expectedApiVersion != remoteApiVersion">
+    <div class="message-body">Whoops, this interface was developed for an api endpoint with version <b>{{ expectedApiVersion }}</b> but the currently connected watch provides an api endpoint with version <b>{{ remoteApiVersion }}</b>. Expect some features not working or information being unavailable! Try to update the firmware or to clear your browsers cache to resolve this issue.</div>
+</article>
+
 <router-outlet *ngIf="isAuthenticated === true"></router-outlet>
 <div class="centeralign card" *ngIf="isAuthenticated !== true">
     <header class="card-header">

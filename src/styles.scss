@@ -8,6 +8,9 @@ $body-size : 0.75rem; // Make everything a little bit smaller
 @import "../node_modules/bulma/sass/helpers/typography.sass";
 @import "../node_modules/bulma/sass/components/navbar.sass";
 
+// Messages / warnings
+@import "../node_modules/bulma/sass/components/message.sass";
+
 // Login
 @import "../node_modules/bulma/sass/components/card.sass";
 @import "../node_modules/bulma/sass/elements/button.sass";
