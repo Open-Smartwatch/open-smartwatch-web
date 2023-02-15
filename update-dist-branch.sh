@@ -9,6 +9,7 @@ fi
 set -x # Show commands
 rm -rfv .tmp # Remove old temp dir, in case anything wnet wrong
 mv -v dist .tmp
+git stash
 git checkout dist
 
 rm -rfv dist
@@ -17,6 +18,7 @@ git add dist # This may fail, if nothing changed -> in that case just "git check
 git commit -m "Updated on `date`"
 
 git checkout -
+git stash pop
 set +x
 
 echo "Done. Don't forget to push the \"dist\" branch now!"
