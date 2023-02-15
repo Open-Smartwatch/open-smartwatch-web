@@ -59,13 +59,18 @@ export class ConfigComponent {
       let data = JSON.parse(event.target!.result as string);
       this.importProgress = 0;
       let progress = 0;
-      for(let id in data) {
+      let asyncSetter = async (id: string) => {
         let field: ApiConfigCategoryField = await this.configCache.getConfigCategoryField(id);
         field.value = data[id];
         await this.apiService.setConfigCategoryField(field);
         progress++;
         this.importProgress = progress / Object.keys(data).length;
+      };
+      let setters = [];
+      for(let id in data) {
+        setters.push(asyncSetter(id));
       }
+      await Promise.all(setters);
       this.importProgress = null;
     };
     reader.readAsText(file);
