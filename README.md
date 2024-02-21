@@ -8,6 +8,8 @@ This project is the web interface for the open-smartwatch. it connects to the OS
 You want to fix something? Just start the development server and start hacking!
 
 ```bash
+nvm install v20.11.1 # First time only, install npm/node via nvm (https://github.com/nvm-sh/nvm)
+nvm use v20.11.1
 npm install # Install dependencies, only needed once
 npm start
 ```
