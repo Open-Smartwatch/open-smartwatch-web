@@ -7,7 +7,7 @@ if [ ! -d dist ]; then
 fi
 
 set -x # Show commands
-rm -rfv .tmp # Remove old temp dir, in case anything wnet wrong
+rm -rfv .tmp # Remove old temp dir, in case anything went wrong
 mv -v dist .tmp
 git stash
 git checkout dist
