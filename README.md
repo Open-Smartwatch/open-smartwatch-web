@@ -24,4 +24,4 @@ npm run build-osw
 You should then be able to drop-in-replace the respective source-codes in the osw-os repository.
 
 ### The `dist` branch...
-... is a special branch that contains the compiled files. It is used to provide the compiled files to the OSW-OS repository. As a maintainer you have to update the `dist` branch manually. You can use the `update-dist-branch.sh` script for that.
+... is a special branch that contains the compiled files. It is used to provide the compiled files to the OSW-OS repository. As a maintainer you have to update the `dist` branch manually (do not forget to run `npm version ...`). You can use the `update-dist-branch.sh` script for updating the branch.
